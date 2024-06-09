@@ -227,44 +227,6 @@ def sentiment_analysis(df):
     df['sentiment_score'] = df['Clean_Review'].apply(lambda x: final_ana.polarity_scores(x)['compound'])
     positive_reviews_df = df[df['sentiment_score'] > 0]
 
-    # Step 2: N-gram Extraction
-
-    # Combine all cleaned reviews into a single text
-    all_clean_reviews = ' '.join(df['Clean_Review'])
-
-    # Extract bigrams (2-grams) and trigrams (3-grams)
-    def extract_ngrams(texts, n=2):
-        vectorizer = CountVectorizer(ngram_range=(2, 2), stop_words='english')
-        bigrams_matrix = vectorizer.fit_transform(df['Clean_Review'])
-        bigrams = vectorizer.get_feature_names_out()
-        bigram_counts = bigrams_matrix.toarray().sum(axis=0)
-        bigram_counts_dict = dict(zip(bigrams, bigram_counts))
-        return bigram_counts_dict
-
-    # Get the top 10 n-grams
-    all_clean_reviews = df['Clean_Review'].tolist()
-    bigrams = extract_ngrams(all_clean_reviews, n=2)
-
-
-    # Filter Bigrams using POS Tagging
-    def filter_meaningful_ngrams(ngram_counts):
-        meaningful_ngrams = []
-        for ngram, count in ngram_counts.items():
-            words = ngram.split()
-            tagged_words = pos_tag(words)
-            if ((tagged_words[0][1].startswith('JJ') and tagged_words[1][1].startswith('NN')) or
-                    (tagged_words[0][1].startswith('NN') and tagged_words[1][1].startswith('NN'))):
-                meaningful_ngrams.append((ngram, count))
-        return meaningful_ngrams
-
-    meaningful_top_ngrams = filter_meaningful_ngrams(bigrams)
-    meaningful_top_ngrams = sorted(meaningful_top_ngrams, key=lambda x: x[1], reverse=True)[:10]
-
-    # Print Top N-grams as Highlights
-    print("Highlights for the Product:")
-    for ngram, count in meaningful_top_ngrams:
-        print(f"{ngram.capitalize()} ({count} mentions)")
-
     ####Old code####
     # Step 2: POS Tagging and Keyword Extraction
 
