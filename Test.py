@@ -431,8 +431,8 @@ def main():
             st.sidebar.markdown(f"[{link}]({url})")
         else:
             st.error("Image could not be retrieved.")
-    st.markdown(f"Below insights are from the **{len(df)} reviews** available in **Amazon.**")
-    st.markdown(f"**Overall Product Rating:** {rating_text} (based on total **{review_count}).**")
+        st.markdown(f"Below insights are from the **{len(df)} reviews** available in **Amazon.**")
+        st.markdown(f"**Overall Product Rating:** {rating_text} (based on total **{review_count}).**")
     sentiment_analysis(df)
 
 if __name__ == "__main__":
