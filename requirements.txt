@@ -1,5 +1,3 @@
-time
-apify_client
 nltk
 matplotlib
 streamlit
