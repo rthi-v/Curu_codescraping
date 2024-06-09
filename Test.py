@@ -27,7 +27,6 @@ from bs4 import BeautifulSoup
 from nltk.tag import pos_tag
 from collections import Counter
 from sklearn.feature_extraction.text import TfidfVectorizer
-import contractions
 from nltk.stem import PorterStemmer, WordNetLemmatizer
 nltk.download('wordnet')
 from sklearn.feature_extraction.text import CountVectorizer
@@ -74,7 +73,7 @@ def get_reviews(soup):
             'Review': item.find('span', {'data-hook': 'review-body'}).text.strip(),
             }
             review_list.append(review)
-            print(review_list)
+            #print(review_list)
     except:
         pass
     return review_list
@@ -404,15 +403,10 @@ def main():
     st.title('Curu App Review Analysis')
     st.sidebar.title('Search')
     asin = st.sidebar.text_input('Enter the ASIN Number').strip()
-
-
-
-
-
     star_ratings = ['five_star', 'four_star', 'three_star', 'two_star', 'one_star']
     combined_df = []
     for star_rating in star_ratings:
-        print(f'Fetching reviews for {star_rating}...')
+        #print(f'Fetching reviews for {star_rating}...')
         page_number = 1
         reviews_list = []
         while True:
@@ -440,8 +434,6 @@ def main():
     st.markdown(f"Below insights are from the **{len(df)} reviews** available in **Amazon.**")
     st.markdown(f"**Overall Product Rating:** {rating_text} (based on total **{review_count}).**")
     sentiment_analysis(df)
-
-
 
 if __name__ == "__main__":
     main()
